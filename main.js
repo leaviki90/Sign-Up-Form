@@ -1,8 +1,5 @@
 const form = document.getElementById("form");
-const firstName = document.getElementById("first-name");
-const lastName = document.getElementById("last-name");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
+const inputs = document.querySelectorAll("input");
 
 //showError
 function showError(input, message) {
@@ -40,36 +37,17 @@ form.addEventListener("submit", function (e) {
 });
 
 function checkInputs() {
-  const firstNameValue = firstName.value.trim();
-  const lastNameValue = lastName.value.trim();
-  const emailValue = email.value.trim();
-  const passwordValue = password.value.trim();
-
-  if (firstNameValue === "") {
-    showError(firstName, `${getFieldName(firstName)} cannot be empty`);
-  } else {
-    showSuccess(firstName);
-  }
-
-  if (lastNameValue === "") {
-    showError(lastName, `${getFieldName(lastName)} cannot be empty`);
-  } else {
-    showSuccess(lastName);
-  }
-
-  if (emailValue === "") {
-    showError(email, `${getFieldName(email)} cannot be empty`);
-  } else if (!checkEmail(emailValue)) {
-    showError(email, "Looks like this is not an email");
-  } else {
-    showSuccess(email);
-  }
-
-  if (passwordValue === "") {
-    showError(password, `${getFieldName(password)} cannot be empty`);
-  } else {
-    showSuccess(password);
-  }
+  inputs.forEach((input) => {
+    if (input.value.trim() === "") {
+      showError(input, `${getFieldName(input)} cannot be empty`);
+    } else if (input.id === "email") {
+      if (checkEmail(input.value) === false) {
+        showError(input, "Looks like this is not an email");
+      }
+    } else {
+      showSuccess(input);
+    }
+  });
 }
 
 form.addEventListener("keydown", function () {
